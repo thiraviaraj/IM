@@ -65,9 +65,13 @@ function App(props) {
         <div>
           <Switch>
             {routes.map((route, i) => (
-              <RouteWithSubRoutes key={i} {...route} />
+              <Route
+                path={route.path}
+                component={route.component}
+              />
             ))}
-          </Switch>
+            
+             </Switch>
         </div>
       </div>
     </Router>
@@ -101,7 +105,13 @@ function RouteWithSubRoutes(route) {
      {' - ' + JSON.stringify(route)}
       <Route
         path={route.path}
-        component={route.component}
+        render={(props) => (
+          // pass the sub-routes down to keep nesting
+          <>
+          @#$%^{JSON.stringify(route.routes)}
+          <route.component {...props} routes={route.routes} />
+          </>
+        )}
       />
     </PrivateRoute>
   );
