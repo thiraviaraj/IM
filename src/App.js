@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { HashRouter as Router, BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import "./App.scss";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -101,10 +101,7 @@ function RouteWithSubRoutes(route) {
      {' - ' + JSON.stringify(route)}
       <Route
         path={route.path}
-        render={(props) => (
-          // pass the sub-routes down to keep nesting
-          <route.component {...props} routes={route.routes} />
-        )}
+        component={route.component}
       />
     </PrivateRoute>
   );
