@@ -54,7 +54,7 @@ const routes = [
   },
 
 ];
-const fakeAuth = { isAuthenticated: true };
+const fakeAuth = { isAuthenticated: false };
 function App(props) {
   return (
     <Router>
