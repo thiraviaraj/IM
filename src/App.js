@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import "./App.scss";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -57,7 +57,7 @@ const routes = [
 const fakeAuth = { isAuthenticated: true };
 function App(props) {
   return (
-    <Router basename={process.env.PUBLIC_URL + '/'}>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         <CssBaseline></CssBaseline>
         <Header></Header>
