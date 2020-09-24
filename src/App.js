@@ -57,7 +57,7 @@ const routes = [
 const fakeAuth = { isAuthenticated: true };
 function App(props) {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router basename={process.env.PUBLIC_URL + '/'}>
       <div className="App">
         <CssBaseline></CssBaseline>
         <Header></Header>
