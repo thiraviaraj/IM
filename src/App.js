@@ -96,6 +96,8 @@ function PrivateRoute({ children, ...rest }) {
 function RouteWithSubRoutes(route) {
   return (
     <PrivateRoute path={route.path}>
+    {route.path} 
+     {' - ' + JSON.stringify(route)}
       <Route
         path={route.path}
         render={(props) => (
