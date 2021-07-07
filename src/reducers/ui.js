@@ -1,12 +1,14 @@
 import * as types from "../actions/types";
 const initialState = {
+  navOpen: false,
 };
 export const ui = (state = initialState, { type, payload }) => {
   switch (type) {
-    // check based on type
-    case type:
-      console.log(type);
-      return state;
+    case types.NAV_OPEN:
+        return {
+          ...state,
+          navOpen: payload,
+        };
     default:
       return state;
   }

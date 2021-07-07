@@ -12,7 +12,7 @@ function NavBar(props) {
     function closeNav() {
         dispatch(openNavBar(false));
     }
-    var className = props.common.navOpen ? 'sidenav showNav' : 'sidenav';
+    var className = props.ui.navOpen ? 'sidenav showNav' : 'sidenav';
     const dispatch = useDispatch();
     return (
         <div id="mySidenav" className={className}>
@@ -32,7 +32,7 @@ function NavBar(props) {
 }
 const mapStateToProps = ({ ui, common }) => {
     return {
-      common: common,
+      ui: ui,
     };
   };
   

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { SetToken, logoutPortal, checkAuthentication } from '../../actions/actions'
 
 const CLIENT_ID =
   "849044581763-ahri2hbnkfcr6qcmv20g90kvbr89sonp.apps.googleusercontent.com";
@@ -18,21 +20,21 @@ class GoogleBtn extends Component {
     this.logout = this.logout.bind(this);
     this.handleLogoutFailure = this.handleLogoutFailure.bind(this);
   }
+  componentDidMount() {
+    this.checkLoggedIn();
+  }
+  checkLoggedIn() {
+    this.props.checkAuthentication();
+  }
 
   login(response) {
     if (response.accessToken) {
-      this.setState((state) => ({
-        isLogined: true,
-        accessToken: response.accessToken,
-      }));
+      this.props.loginToPortal(response.accessToken);
     }
   }
 
   logout(response) {
-    this.setState((state) => ({
-      isLogined: false,
-      accessToken: "",
-    }));
+    this.props.logoutPortal();
   }
 
   handleLoginFailure(response) {
@@ -42,11 +44,19 @@ class GoogleBtn extends Component {
   handleLogoutFailure(response) {
     alert("Failed to log out");
   }
+  isLogIn() {
+    const user = this.props.loginData.accessToken;
+    if (user) {
+      return true
+    } else {
+      return false;
+    }
+  }
 
   render() {
     return (
       <div>
-        {this.state.isLogined ? (
+        {this.isLogIn() ? (
           <GoogleLogout
             clientId={CLIENT_ID}
             buttonText="Logout"
@@ -54,19 +64,19 @@ class GoogleBtn extends Component {
             onFailure={this.handleLogoutFailure}
           ></GoogleLogout>
         ) : (
-          <GoogleLogin
-            clientId={CLIENT_ID}
-            buttonText="Login"
-            onSuccess={this.login}
-            onFailure={this.handleLoginFailure}
-            cookiePolicy={"single_host_origin"}
-            responseType="code,token"
-          />
-        )}
-        {this.state.accessToken ? (
+            <GoogleLogin
+              clientId={CLIENT_ID}
+              buttonText="Login"
+              onSuccess={this.login}
+              onFailure={this.handleLoginFailure}
+              cookiePolicy={"single_host_origin"}
+              responseType="code,token"
+            />
+          )}
+        {this.isLogIn() ? (
           <h5>
             Your Access Token: <br />
-            <br /> {this.state.accessToken}
+            <br /> {this.props.loginData.accessToken}
           </h5>
         ) : null}
       </div>
@@ -74,4 +84,16 @@ class GoogleBtn extends Component {
   }
 }
 
-export default GoogleBtn;
+const mapStateToProps = state => {
+  return {
+    loginData: state.common
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  loginToPortal: (data) => dispatch(SetToken(data)),
+  logoutPortal: () => dispatch(logoutPortal()),
+  checkAuthentication: () => dispatch(checkAuthentication()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleBtn);
